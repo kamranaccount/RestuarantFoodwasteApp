@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "116861761266",
+    "project_id": "rfwapp-f5e7f",
+    "storage_bucket": "rfwapp-f5e7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116861761266:android:29995cc360caeb51cd426b",
+        "android_client_info": {
+          "package_name": "com.example.restaurantfoodwaste"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116861761266-c080rst0pqck2gvduosbusb1of448b7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv5yFSV-Y-DwscZFnbq888Er8peD6rh2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116861761266-c080rst0pqck2gvduosbusb1of448b7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
