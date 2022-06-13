@@ -474,6 +474,7 @@ class SignupScreenRest extends StatelessWidget {
         "restemail": restemailTextEditingController.text.trim(),
         "restphone": restphoneNumberTextEditingController.text.trim(),
         "restaddress": restaddressTextEditingController.text.trim(),
+        "userId": _firebaseAuth.currentUser!.uid,
       };
       rest_ref.child(User.uid).set(userDataMap);
       Navigator.push(

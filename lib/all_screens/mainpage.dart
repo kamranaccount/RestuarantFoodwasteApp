@@ -55,6 +55,7 @@ class _mainpageState extends State<mainpage> {
           values[key]["restemail"],
           values[key]["restaddress"],
           values[key]["restphone"],
+          values[key]["userId"],
         );
         datalist.add(data);
       }
@@ -274,6 +275,7 @@ class _mainpageState extends State<mainpage> {
                       datalist[index].restemail,
                       datalist[index].restaddress,
                       datalist[index].restphone,
+                      datalist[index].userId,
                     );
                   }),
           bottomNavigationBar: BottomNavigationBar(
@@ -389,7 +391,7 @@ class _mainpageState extends State<mainpage> {
   // }
 
   Widget CardUI(
-      String restname, String restemail, String restaddress, String restphone) {
+      String restname, String restemail, String restaddress, String restphone,String userId) {
     return SingleChildScrollView(
       child: Center(
           child: Container(
@@ -475,6 +477,7 @@ class _mainpageState extends State<mainpage> {
                                     builder: (context) => showFoodDetails(
                                           showName: restname,
                                           showEmail: restemail,
+                                          userId:userId,
                                         )));
                           }),
                     ],
@@ -501,6 +504,7 @@ class _mainpageState extends State<mainpage> {
           values[key]["restemail"],
           values[key]["restaddress"],
           values[key]["restphone"],
+          values[key]["userId"],
         );
         if (data.restname.contains(text)) {
           datalist.add(data);

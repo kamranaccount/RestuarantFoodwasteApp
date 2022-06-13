@@ -141,6 +141,8 @@ class _LoginScrnState extends State<LoginScrn> {
                       ),
                       FlatButton(
                         onPressed: () {
+                          print(emailTextEditingController.text);
+                          print(passwordTextEditingController.text);
                           Navigator.push(
                               context,
                               PageRouteBuilder(

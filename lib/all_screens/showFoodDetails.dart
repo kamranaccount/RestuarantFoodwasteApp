@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
@@ -10,8 +11,9 @@ import 'package:restaurantfoodwaste/all_screens/NgoConfirmReq.dart';
 
 class showFoodDetails extends StatefulWidget {
   final String showName, showEmail;
+  final userId;
 
-  showFoodDetails({Key? key, required this.showName, required this.showEmail})
+  showFoodDetails({Key? key, required this.showName, required this.showEmail,required this.userId})
       : super(key: key);
 
   @override
@@ -22,11 +24,20 @@ class _showFoodDetailsState extends State<showFoodDetails> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final String email = FirebaseAuth.instance.currentUser!.email.toString();
   late String getresponse, getcomment;
+  late DatabaseReference show_food ;
   var ReqName, ReqEmail, ReqPhone, ReqAddress;
   //late String Email = 'kamranyaqoob1206@gmail.com';
   // late String Pass = 'kam181218';
   TextEditingController Email = TextEditingController();
   TextEditingController Pass = TextEditingController();
+
+  @override
+  void initState() {
+    show_food =
+        FirebaseDatabase.instance.reference().child("rest").child(widget.userId.toString()).child("food");
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +81,54 @@ class _showFoodDetailsState extends State<showFoodDetails> {
                       fontSize: 18.0,
                       color: Colors.green,
                       fontWeight: FontWeight.bold),
+                ),
+                FirebaseAnimatedList(
+                  physics: NeverScrollableScrollPhysics(),
+                  query: show_food,
+                  shrinkWrap: true,
+                  itemBuilder: (context, snapshot, animation, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Card(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 14.0,
+                            ),
+                            Text(
+                              "Food NAME: ${snapshot.value['foodname']}",
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            Text(
+                              "DESCRIPTION: ${snapshot.value['foodDesc']}",
+                            ),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                            Text("FOOD STATUS: ${snapshot.value['foodStatus']}"),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                          ],
+                        ),
+                        elevation: 15,
+                        shadowColor: Colors.tealAccent,
+                        shape: BeveledRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          side: BorderSide(color: Colors.green),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(
                   height: 20.0,
@@ -142,6 +201,7 @@ class _showFoodDetailsState extends State<showFoodDetails> {
                     showReqEmail: ReqEmail,
                     showReqName: ReqName,
                     showReqPhn: ReqPhone,
+                    restId: widget.userId,
                   )),
         );
         // Navigator.push(

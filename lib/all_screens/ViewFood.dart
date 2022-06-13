@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ class ViewFood extends StatefulWidget {
 }
 
 class _ViewFoodState extends State<ViewFood> {
-  final view_ref = FirebaseDatabase.instance.reference().child("food");
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+//  final view_ref = FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
   bool active = false;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class _ViewFoodState extends State<ViewFood> {
         title: Text("View Food"),
       ),
       body: FirebaseAnimatedList(
-        query: view_ref,
+        query: food_ref,
         itemBuilder: (context, snapshot, animation, index) {
           return Padding(
             padding: const EdgeInsets.all(10.0),

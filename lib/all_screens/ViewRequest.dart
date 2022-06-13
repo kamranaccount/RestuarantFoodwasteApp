@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,16 +23,19 @@ class _NgoReqState extends State<NgoReq> {
   TextEditingController Email = TextEditingController();
   TextEditingController Pass = TextEditingController();
   var getemailngo;
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  late  DatabaseReference restreqview ;
   @override
   void initState() {
+    restreqview =
+        FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("request");
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final restreqview =
-        FirebaseDatabase.instance.reference().child("ngosendreq");
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,

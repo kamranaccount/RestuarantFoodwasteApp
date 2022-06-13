@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +28,13 @@ Future<void> main() async {
 
 //for saving user info
 //when ever we need to call user ref we can call anywhere thats why we use in main file
+FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 DatabaseReference ngos_ref =
     FirebaseDatabase.instance.reference().child("ngos");
 DatabaseReference rest_ref =
     FirebaseDatabase.instance.reference().child("rest");
 DatabaseReference food_ref =
-    FirebaseDatabase.instance.reference().child("food");
+    FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
 DatabaseReference ngo_send_req =
     FirebaseDatabase.instance.reference().child("ngosendreq");
 

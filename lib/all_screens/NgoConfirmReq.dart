@@ -1,16 +1,18 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:restaurantfoodwaste/all_screens/mainpage.dart';
 import 'package:restaurantfoodwaste/main.dart';
 
 class ngoConfirmReq extends StatefulWidget {
-  final String showReqName, showReqEmail, showReqAddr, showReqPhn;
+  final String showReqName, showReqEmail, showReqAddr, showReqPhn,restId;
   const ngoConfirmReq(
       {Key? key,
       required this.showReqName,
       required this.showReqAddr,
       required this.showReqEmail,
-      required this.showReqPhn})
+      required this.showReqPhn,
+      required this.restId})
       : super(key: key);
 
   @override
@@ -18,6 +20,16 @@ class ngoConfirmReq extends StatefulWidget {
 }
 
 class _ngoConfirmReqState extends State<ngoConfirmReq> {
+  late DatabaseReference request;
+
+
+  @override
+  void initState() {
+    request =
+        FirebaseDatabase.instance.reference().child("rest").child(widget.restId.toString()).child("request");
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,7 +161,7 @@ class _ngoConfirmReqState extends State<ngoConfirmReq> {
                                           side: BorderSide(color: Colors.teal),
                                         ),
                                         onPressed: () {
-                                          ngo_send_req.push().set({
+                                          request.push().set({
                                             'reqngoname': widget.showReqName,
                                             'reqngoemail': widget.showReqEmail,
                                             'reqngophone': widget.showReqPhn,

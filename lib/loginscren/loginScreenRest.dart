@@ -187,6 +187,8 @@ class LoginScreenRest extends StatelessWidget {
                             side: BorderSide(color: Colors.white),
                           ),
                           onPressed: () {
+                            print(restemailTextEditingController.text);
+                            print(restpasswordTextEditingController.text);
                             if (restemailTextEditingController.text.isEmpty) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
@@ -320,14 +322,16 @@ class LoginScreenRest extends StatelessWidget {
     );
   }
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   void loginRest(BuildContext context) async {
-    final User = (await _firebaseAuth
+    print(restemailTextEditingController.text);
+    var User = (await _firebaseAuth
             .signInWithEmailAndPassword(
-                email: restemailTextEditingController.text,
-                password: restpasswordTextEditingController.text)
+                email: restemailTextEditingController.text.trim(),
+                password: restpasswordTextEditingController.text.trim())
             .catchError((errMsg) {
+              print(errMsg);
       if (errMsg.code == "user-not-found") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
@@ -354,6 +358,7 @@ class LoginScreenRest extends StatelessWidget {
       }
     }))
         .user;
+    print(User!.email.toString());
     if (User != null) // user created
     {
       //Save user information into Database
@@ -365,6 +370,7 @@ class LoginScreenRest extends StatelessWidget {
               message: "Authenticating Please Wait...",
             );
           });
+      print(User.uid);
 
       rest_ref.child(User.uid).once().then((DataSnapshot Snap) {
         if (Snap.value != null) {
