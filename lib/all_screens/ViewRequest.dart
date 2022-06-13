@@ -8,6 +8,8 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:restaurantfoodwaste/Signup/signUpRest.dart';
 
+import '../main.dart';
+
 class NgoReq extends StatefulWidget {
   final String RestName, RestEmail, RestPhone, RestAddress;
   NgoReq(
@@ -97,6 +99,7 @@ class _NgoReqState extends State<NgoReq> {
                         getemailngo = snapshot.value['reqngoemail'];
                         openDialog();
                         restreqview.child(snapshot.key!).remove();
+                        food_ref.remove();
                       },
                       child: Text(
                         "Accept",
