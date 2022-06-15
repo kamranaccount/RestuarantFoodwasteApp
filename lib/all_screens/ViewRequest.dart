@@ -27,11 +27,13 @@ class _NgoReqState extends State<NgoReq> {
   var getemailngo;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   late  DatabaseReference restreqview ;
+  late DatabaseReference food_ref;
   @override
   void initState() {
     restreqview =
         FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("request");
-    // TODO: implement initState
+    food_ref =
+            FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
     super.initState();
   }
 

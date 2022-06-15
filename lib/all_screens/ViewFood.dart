@@ -13,8 +13,18 @@ class ViewFood extends StatefulWidget {
 
 class _ViewFoodState extends State<ViewFood> {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-//  final view_ref = FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
+late var view_ref ;
   bool active = false;
+  late DatabaseReference food_ref;
+  @override
+  void initState() {
+    view_ref =
+        FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
+    //FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    food_ref =
+        FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +33,7 @@ class _ViewFoodState extends State<ViewFood> {
         title: Text("View Food"),
       ),
       body: FirebaseAnimatedList(
-        query: food_ref,
+        query: view_ref,
         itemBuilder: (context, snapshot, animation, index) {
           return Padding(
             padding: const EdgeInsets.all(10.0),

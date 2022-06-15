@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurantfoodwaste/Signup/signup_screen.dart';
 import 'package:restaurantfoodwaste/all_screens/ViewFood.dart';
@@ -18,10 +19,12 @@ class _AddFoodState extends State<AddFood> {
   TextEditingController foodDescp = TextEditingController();
   TextEditingController foodStatus = TextEditingController();
   TextEditingController emailtext = TextEditingController();
-
+  late DatabaseReference food_ref;
   @override
   void initState() {
-    // TODO: implement initState
+    FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+     food_ref =
+    FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
     super.initState();
   }
 
