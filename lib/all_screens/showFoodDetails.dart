@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:restaurantfoodwaste/all_screens/ngoAcceptedRequest.dart';
+import 'package:restaurantfoodwaste/all_screens/showFoodDetails.dart';
 import 'package:restaurantfoodwaste/Signup/signup_screen.dart';
 import 'package:restaurantfoodwaste/all_screens/NgoConfirmReq.dart';
 
@@ -151,6 +153,29 @@ class _showFoodDetailsState extends State<showFoodDetails> {
                     ),
                     onPressed: () {
                       show();
+                    }),
+                SizedBox(
+                  height: 20.0,
+                ),
+                RaisedButton(
+                    color: Colors.teal,
+                    textColor: Colors.white,
+                    child: Container(
+                      height: 45.0,
+                      child: Center(
+                        child: Text(
+                          "Show accept request",
+                          style: TextStyle(color: Colors.white, fontSize: 20.0),
+                        ),
+                      ),
+                    ),
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(18.0),
+                      side: BorderSide(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => showAcceptRequest(uid: widget.userId,)));
                     }),
                 SizedBox(
                   height: 20.0,

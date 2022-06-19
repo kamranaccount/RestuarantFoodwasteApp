@@ -28,12 +28,15 @@ class _NgoReqState extends State<NgoReq> {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   late  DatabaseReference restreqview ;
   late DatabaseReference food_ref;
+  late DatabaseReference request;
   @override
   void initState() {
     restreqview =
         FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("request");
     food_ref =
             FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
+    request =
+            FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("acceptrequest");
     super.initState();
   }
 
@@ -96,10 +99,20 @@ class _NgoReqState extends State<NgoReq> {
                   FlatButton(
                       color: Colors.teal,
                       onPressed: () {
-                        displayToastMessage(
-                            "Enter Gmail Account Details", context);
-                        getemailngo = snapshot.value['reqngoemail'];
-                        openDialog();
+                        // displayToastMessage(
+                        //     "Enter Gmail Account Details", context);
+                        // getemailngo = snapshot.value['reqngoemail'];
+                        //openDialog();
+                        request.push().set({
+                          'restname': widget.RestName,
+                          'restaddress': widget.RestAddress,
+                          'restphoneNo': widget.RestPhone,
+                          'restemail': widget.RestPhone,
+                          'ngoname': snapshot.value['reqngoname'],
+                          'ngoemail': snapshot.value['reqngoemail'],
+                          'ngoaddress': snapshot.value['reqngoaddr'],
+                          'ngophoneno': snapshot.value['reqngophone'],
+                        });
                         restreqview.child(snapshot.key!).remove();
                         food_ref.remove();
                       },
