@@ -28,7 +28,6 @@ Future<void> main() async {
 
 //for saving user info
 //when ever we need to call user ref we can call anywhere thats why we use in main file
-
 DatabaseReference ngos_ref =
     FirebaseDatabase.instance.reference().child("ngos");
 DatabaseReference rest_ref =

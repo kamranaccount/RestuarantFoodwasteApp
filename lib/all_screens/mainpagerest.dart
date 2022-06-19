@@ -5,10 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:restaurantfoodwaste/Home_screen.dart';
 import 'package:restaurantfoodwaste/Signup/signup_screen.dart';
 import 'package:restaurantfoodwaste/all_screens/AddFood.dart';
 import 'package:restaurantfoodwaste/all_screens/RestProfile.dart';
+import 'package:restaurantfoodwaste/all_screens/RestViewHistory.dart';
 import 'package:restaurantfoodwaste/all_screens/ViewFood.dart';
 import 'package:restaurantfoodwaste/all_screens/ViewRequest.dart';
 import 'package:restaurantfoodwaste/all_screens/prediction.dart';
@@ -214,16 +216,6 @@ class _mainpagerestState extends State<mainpagerest> {
                 ),
                 ListTile(
                   leading: Icon(
-                    Icons.settings,
-                    color: Colors.teal,
-                  ),
-                  title: Text("Setting"),
-                  onTap: () {
-                    displayToastMessage("Click On Setting", context);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(
                     Icons.batch_prediction,
                     color: Colors.teal,
                   ),
@@ -244,7 +236,11 @@ class _mainpagerestState extends State<mainpagerest> {
                   ),
                   title: Text("History"),
                   onTap: () {
-                    displayToastMessage("Click On History", context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RestViewHistory()),
+                    );
                   },
                 ),
                 ListTile(
@@ -368,9 +364,8 @@ class _mainpagerestState extends State<mainpagerest> {
     return SingleChildScrollView(
       child: Center(
           child: Container(
-        width: 370,
-        height: 220.0,
-        padding: new EdgeInsets.all(5.0),
+        width: double.infinity,
+        padding: new EdgeInsets.all(8.0),
         child: Card(
           shape: BeveledRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
@@ -383,7 +378,6 @@ class _mainpagerestState extends State<mainpagerest> {
             margin: EdgeInsets.all(1.5),
             padding: EdgeInsets.all(10.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 8.0,
@@ -392,7 +386,9 @@ class _mainpagerestState extends State<mainpagerest> {
                   child: Text(
                     "NGO's: ${ngoname}",
                     style: TextStyle(
-                      fontSize: 20.0,
+                      decoration: TextDecoration.underline,
+                      decorationStyle: TextDecorationStyle.double,
+                      fontSize: 22.0,
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
                     ),
@@ -415,26 +411,23 @@ class _mainpagerestState extends State<mainpagerest> {
                     SizedBox(
                       height: 12.0,
                     ),
-                    RaisedButton(
-                        color: Colors.teal,
-                        textColor: Colors.white,
-                        child: Container(
-                          height: 45.0,
-                          child: Center(
-                            child: Text(
-                              "Donate the Food",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 20.0),
-                            ),
-                          ),
-                        ),
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.white),
-                        ),
-                        onPressed: () {
-                          displayToastMessage("In Progress", context);
-                        }),
+                    Text(
+                      "Message: ",
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Text(
+                      "To donate Food to NGO. Contact on this Details ",
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.grey.shade800),
+                    ),
                   ],
                 ),
               ],
@@ -521,6 +514,7 @@ class _mainpagerestState extends State<mainpagerest> {
               TextButton(onPressed: update, child: Text("UPDATE")),
             ],
           ));
+
   void update() {
     Navigator.of(context).pop(controller.text);
     controller.clear();

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurantfoodwaste/Signup/signUpRest.dart';
 import 'package:restaurantfoodwaste/all_screens/adminViewRest.dart';
 import 'package:restaurantfoodwaste/main.dart';
-import 'package:restaurantfoodwaste/ourwidgets/progrsbar.dart';
 
 class adminAddRest extends StatefulWidget {
   const adminAddRest({Key? key}) : super(key: key);
@@ -23,6 +22,7 @@ class _adminAddRestState extends State<adminAddRest> {
   TextEditingController address = TextEditingController();
   TextEditingController password = TextEditingController();
   bool _validate = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -341,8 +341,6 @@ class _adminAddRestState extends State<adminAddRest> {
 
     if (User != null) // user created
     {
-      //Save user information into Database
-
       Map userDataMap = {
         //we use trim because The string without any leading and trailing whitespace.
         "restname": name.text.trim(),
@@ -351,7 +349,6 @@ class _adminAddRestState extends State<adminAddRest> {
         "restaddress": address.text.trim(),
       };
       rest_ref.child(User.uid).set(userDataMap);
-
       Navigator.push(
           context,
           PageRouteBuilder(

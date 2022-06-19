@@ -6,6 +6,7 @@ import 'package:restaurantfoodwaste/Home_screen.dart';
 import 'package:restaurantfoodwaste/all_screens/addminAddNgo.dart';
 import 'package:restaurantfoodwaste/all_screens/adminAddRest.dart';
 import 'package:restaurantfoodwaste/all_screens/adminProfile.dart';
+import 'package:restaurantfoodwaste/all_screens/adminViewFeedback.dart';
 import 'package:restaurantfoodwaste/all_screens/adminViewNgo.dart';
 import 'package:restaurantfoodwaste/all_screens/adminViewRest.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -28,6 +29,7 @@ class _adminDashboardState extends State<adminDashboard> {
   ];
 
   var myindex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,10 +99,10 @@ class _adminDashboardState extends State<adminDashboard> {
               ),
               title: Text("Profile"),
               onTap: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => const RestProfile()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AdminProfile()));
               },
             ),
             ListTile(
@@ -153,8 +155,19 @@ class _adminDashboardState extends State<adminDashboard> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const adminViewRest()));
-
-                //displayToastMessage("Click On History", context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.feedback,
+                color: Colors.pink,
+              ),
+              title: Text("View Feedbacks"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => adminViewFedBck()),
+                );
               },
             ),
             ListTile(

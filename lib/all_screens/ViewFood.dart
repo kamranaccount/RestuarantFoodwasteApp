@@ -13,18 +13,25 @@ class ViewFood extends StatefulWidget {
 
 class _ViewFoodState extends State<ViewFood> {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-late var view_ref ;
+  late var view_ref;
   bool active = false;
   late DatabaseReference food_ref;
   @override
   void initState() {
-    view_ref =
-        FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
+    view_ref = FirebaseDatabase.instance
+        .reference()
+        .child("rest")
+        .child(_firebaseAuth.currentUser!.uid)
+        .child("food");
     //FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-    food_ref =
-        FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
+    food_ref = FirebaseDatabase.instance
+        .reference()
+        .child("rest")
+        .child(_firebaseAuth.currentUser!.uid)
+        .child("food");
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -291,7 +298,11 @@ late var view_ref ;
       "foodDesc": desc,
       "foodStatus": status,
     };
-    final view_ref = FirebaseDatabase.instance.reference().child("food");
-    view_ref.child(key).update(x);
+    food_ref = FirebaseDatabase.instance
+        .reference()
+        .child("rest")
+        .child(_firebaseAuth.currentUser!.uid)
+        .child("food");
+    food_ref.child(key).update(x);
   }
 }

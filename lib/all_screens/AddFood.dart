@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurantfoodwaste/Signup/signup_screen.dart';
 import 'package:restaurantfoodwaste/all_screens/ViewFood.dart';
-import 'package:restaurantfoodwaste/main.dart';
 
 class AddFood extends StatefulWidget {
   const AddFood({Key? key}) : super(key: key);
@@ -20,11 +18,15 @@ class _AddFoodState extends State<AddFood> {
   TextEditingController foodStatus = TextEditingController();
   TextEditingController emailtext = TextEditingController();
   late DatabaseReference food_ref;
+
   @override
   void initState() {
     FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-     food_ref =
-    FirebaseDatabase.instance.reference().child("rest").child(_firebaseAuth.currentUser!.uid).child("food");
+    food_ref = FirebaseDatabase.instance
+        .reference()
+        .child("rest")
+        .child(_firebaseAuth.currentUser!.uid)
+        .child("food");
     super.initState();
   }
 
@@ -129,7 +131,7 @@ class _AddFoodState extends State<AddFood> {
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Enter Food Status',
+                      hintText: 'Enter Food Status Av or av',
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.teal,

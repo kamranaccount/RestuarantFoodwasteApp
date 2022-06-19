@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class FoodWastageAPI {
@@ -15,7 +14,6 @@ class FoodWastageAPI {
       return json.decode(response.body);
     } catch (e) {
       print(e);
-
       return {};
     }
   }

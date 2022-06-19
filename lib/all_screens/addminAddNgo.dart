@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurantfoodwaste/Signup/signUpRest.dart';
 import 'package:restaurantfoodwaste/all_screens/adminViewNgo.dart';
 import 'package:restaurantfoodwaste/main.dart';
-import 'package:restaurantfoodwaste/ourwidgets/progrsbar.dart';
 
 class adminAddNgo extends StatefulWidget {
   const adminAddNgo({Key? key}) : super(key: key);
@@ -23,6 +22,7 @@ class _adminAddNgoState extends State<adminAddNgo> {
   TextEditingController address = TextEditingController();
   TextEditingController password = TextEditingController();
   bool _validate = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

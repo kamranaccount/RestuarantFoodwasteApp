@@ -2,18 +2,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:restaurantfoodwaste/Home_screen.dart';
 import 'package:restaurantfoodwaste/Signup/signup_screen.dart';
-import 'package:restaurantfoodwaste/all_screens/AddFood.dart';
-import 'package:restaurantfoodwaste/all_screens/NearByRest.dart';
 import 'package:restaurantfoodwaste/all_screens/NgoProfile.dart';
-import 'package:restaurantfoodwaste/all_screens/ViewFood.dart';
-import 'package:restaurantfoodwaste/all_screens/ViewRequest.dart';
+import 'package:restaurantfoodwaste/all_screens/NgoViewHistory.dart';
 import 'package:restaurantfoodwaste/all_screens/showFoodDetails.dart';
 import 'package:restaurantfoodwaste/all_screens/simpleMap.dart';
 
@@ -29,13 +26,13 @@ class mainpage extends StatefulWidget {
 class _mainpageState extends State<mainpage> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final email = FirebaseAuth.instance.currentUser!.email;
-  var Name, Email, Phone, Address;
+  late String getresponse, getcomment;
+  var Name, Email, Phone, Address, ReqName, ReqRestName;
   List<Data> datalist = [];
   int activeIndex = 0;
   bool searchState = false;
   TextEditingController controller = TextEditingController();
   String foodStatus = '';
-  bool color = false;
 
   @override
   void initState() {
@@ -61,13 +58,6 @@ class _mainpageState extends State<mainpage> {
       }
       setState(() {});
     });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    controller.dispose();
-    super.dispose();
   }
 
   Future<bool?> WarningMsg(BuildContext context) async => showDialog<bool>(
@@ -228,22 +218,15 @@ class _mainpageState extends State<mainpage> {
                 ),
                 ListTile(
                   leading: Icon(
-                    Icons.near_me_rounded,
-                    color: Colors.teal,
-                  ),
-                  title: Text("Near By Restaurant"),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => NearByRest()));
-                  },
-                ),
-                ListTile(
-                  leading: Icon(
                     Icons.history,
                     color: Colors.teal,
                   ),
                   title: Text("History"),
                   onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NgoViewHistory()));
                     displayToastMessage("Click On History", context);
                   },
                 ),
@@ -358,40 +341,8 @@ class _mainpageState extends State<mainpage> {
     });
   }
 
-  // Future<void> getCurrentNgo(BuildContext context) async {
-  //   final firebaseUser = await FirebaseAuth.instance.currentUser!;
-  //   String userId = firebaseUser.uid;
-  //   DatabaseReference reference =
-  //       FirebaseDatabase.instance.reference().child("ngos").child(userId);
-  //   reference.once().then((DataSnapshot snapshot) {
-  //     if (snapshot.value != null) {
-  //       Name = snapshot.value['ngoname'];
-  //       Address = snapshot.value['ngoaddress'];
-  //       Email = snapshot.value['ngoemail'];
-  //       Phone = snapshot.value['ngophone'];
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => NgoReq(
-  //                   NgoAddress: Address,
-  //                   NgoEmail: Email,
-  //                   NgoName: Name,
-  //                   NgoPhone: Phone,
-  //                 )),
-  //       );
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => mainpage()),
-  //       );
-  //       print('Ngo Name: ${Name}');
-  //     } else {
-  //       print("error");
-  //     }
-  //   });
-  // }
-
-  Widget CardUI(
-      String restname, String restemail, String restaddress, String restphone,String userId) {
+  Widget CardUI(String restname, String restemail, String restaddress,
+      String restphone, String userId) {
     return SingleChildScrollView(
       child: Center(
           child: Container(
@@ -418,7 +369,7 @@ class _mainpageState extends State<mainpage> {
                     child: Text(
                       "Restaurant: ${restname}",
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 22.0,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
                       ),
@@ -453,33 +404,66 @@ class _mainpageState extends State<mainpage> {
                       SizedBox(
                         height: 12.0,
                       ),
-                      RaisedButton(
-                          color: Colors.teal,
-                          textColor: Colors.white,
-                          child: Container(
-                            height: 45.0,
-                            child: Center(
-                              child: Text(
-                                "Show Details",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 10.0, left: 10.0, right: 10.0),
+                        child: RaisedButton(
+                            color: Colors.teal,
+                            textColor: Colors.white,
+                            child: Container(
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Text(
+                                    "Show Details",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20.0),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(18.0),
-                            side: BorderSide(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => showFoodDetails(
-                                          showName: restname,
-                                          showEmail: restemail,
-                                          userId:userId,
-                                        )));
-                          }),
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(15.0),
+                              side: BorderSide(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => showFoodDetails(
+                                            showName: restname,
+                                            showEmail: restemail,
+                                            userId: userId,
+                                          )));
+                            }),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 5.0, left: 10.0, right: 10.0),
+                        child: RaisedButton(
+                            color: Colors.teal,
+                            textColor: Colors.white,
+                            child: Container(
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Text(
+                                    "Give Feedback",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(15.0),
+                              side: BorderSide(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              ReqRestName = restname;
+                              ReqCurrentNgo(context);
+                            }),
+                      ),
                     ],
                   ),
                 ],
@@ -489,6 +473,88 @@ class _mainpageState extends State<mainpage> {
         ),
       )),
     );
+  }
+
+  Future<void> ReqCurrentNgo(BuildContext context) async {
+    final firebaseUser = await FirebaseAuth.instance.currentUser!;
+    String userId = firebaseUser.uid;
+    DatabaseReference reference =
+        FirebaseDatabase.instance.reference().child("ngos").child(userId);
+    reference.once().then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        ReqName = snapshot.value['ngoname'];
+        show(ReqName);
+      } else {
+        print("error");
+      }
+    });
+  }
+
+  void show(String ngoname) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return RatingDialog(
+              title: Text(
+                "Rate us 😀 ",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.pink,
+                    fontSize: 22.0),
+              ),
+              message: Text(
+                "Tap on stars to rate us",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.pink,
+                    fontSize: 20.0),
+              ),
+              image: Icon(
+                Icons.star,
+                color: Colors.pinkAccent,
+                size: 100,
+              ),
+              submitButtonText: "SUBMIT",
+              submitButtonTextStyle: TextStyle(
+                  color: Colors.pinkAccent,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0),
+              starColor: Colors.pink,
+              onSubmitted: (response) {
+                getresponse = response.rating.toString();
+                getcomment = response.comment.toString();
+                if (response.comment.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                    "Please Enter Comment",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0),
+                  )));
+                } else {
+                  DatabaseReference feedback =
+                      FirebaseDatabase.instance.reference().child("feedback");
+                  feedback.push().set({
+                    'star': getresponse.toString(),
+                    'comment': getcomment.toString(),
+                    'ngoname': ngoname.toString(),
+                    'restname': ReqRestName.toString(),
+                  }).then((value) => null);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                    "Successfully Give Feedback To Restaurant: ${ReqRestName}",
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold),
+                  )));
+                }
+              });
+        });
   }
 
   void SearchNgoMethod(String text) {

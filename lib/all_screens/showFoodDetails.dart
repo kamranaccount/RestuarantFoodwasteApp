@@ -15,7 +15,11 @@ class showFoodDetails extends StatefulWidget {
   final String showName, showEmail;
   final userId;
 
-  showFoodDetails({Key? key, required this.showName, required this.showEmail,required this.userId})
+  showFoodDetails(
+      {Key? key,
+      required this.showName,
+      required this.showEmail,
+      required this.userId})
       : super(key: key);
 
   @override
@@ -26,20 +30,20 @@ class _showFoodDetailsState extends State<showFoodDetails> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final String email = FirebaseAuth.instance.currentUser!.email.toString();
   late String getresponse, getcomment;
-  late DatabaseReference show_food ;
+  late DatabaseReference show_food;
   var ReqName, ReqEmail, ReqPhone, ReqAddress;
-  //late String Email = 'kamranyaqoob1206@gmail.com';
-  // late String Pass = 'kam181218';
-  TextEditingController Email = TextEditingController();
-  TextEditingController Pass = TextEditingController();
 
   @override
   void initState() {
-    show_food =
-        FirebaseDatabase.instance.reference().child("rest").child(widget.userId.toString()).child("food");
+    show_food = FirebaseDatabase.instance
+        .reference()
+        .child("rest")
+        .child(widget.userId.toString())
+        .child("food");
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +117,8 @@ class _showFoodDetailsState extends State<showFoodDetails> {
                             SizedBox(
                               height: 5.0,
                             ),
-                            Text("FOOD STATUS: ${snapshot.value['foodStatus']}"),
+                            Text(
+                                "FOOD STATUS: ${snapshot.value['foodStatus']}"),
                             SizedBox(
                               height: 10.0,
                             ),
@@ -133,27 +138,36 @@ class _showFoodDetailsState extends State<showFoodDetails> {
                   },
                 ),
                 SizedBox(
-                  height: 20.0,
+                  height: 12.0,
                 ),
-                RaisedButton(
-                    color: Colors.teal,
-                    textColor: Colors.white,
-                    child: Container(
-                      height: 45.0,
-                      child: Center(
-                        child: Text(
-                          "Give Feedback",
-                          style: TextStyle(color: Colors.white, fontSize: 20.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+                  // ignore: deprecated_member_use
+                  child: RaisedButton(
+                      color: Colors.teal,
+                      textColor: Colors.white,
+                      child: Container(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(
+                              "Send Request For Food",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 20.0),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(18.0),
-                      side: BorderSide(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      show();
-                    }),
+//<<<<<<< Updated upstream
+
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(18.0),
+                        side: BorderSide(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        //show();
+                      }),
+                ),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -174,8 +188,12 @@ class _showFoodDetailsState extends State<showFoodDetails> {
                       side: BorderSide(color: Colors.white),
                     ),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => showAcceptRequest(uid: widget.userId,)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => showAcceptRequest(
+                                    uid: widget.userId,
+                                  )));
                     }),
                 SizedBox(
                   height: 20.0,
@@ -193,12 +211,12 @@ class _showFoodDetailsState extends State<showFoodDetails> {
                       ),
                     ),
                     shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(18.0),
+                      borderRadius: new BorderRadius.circular(15.0),
                       side: BorderSide(color: Colors.white),
                     ),
                     onPressed: () {
                       ReqCurrentNgo(context);
-                    }),
+                    })
               ],
             ),
           ),
@@ -229,209 +247,10 @@ class _showFoodDetailsState extends State<showFoodDetails> {
                     restId: widget.userId,
                   )),
         );
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => mainpage()),
-        // );
         print('Requester Name: ${ReqName}');
       } else {
         print("error");
       }
     });
   }
-
-  void show() {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (context) {
-          return RatingDialog(
-              title: Text(
-                "Rate us 😀 ",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.pink,
-                    fontSize: 22.0),
-              ),
-              message: Text(
-                "Tap on stars to rate us",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.pink,
-                    fontSize: 20.0),
-              ),
-              image: Icon(
-                Icons.star,
-                color: Colors.pinkAccent,
-                size: 100,
-              ),
-              submitButtonText: "SUBMIT",
-              submitButtonTextStyle: TextStyle(
-                  color: Colors.pinkAccent,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0),
-              starColor: Colors.pink,
-              onSubmitted: (response) {
-                getresponse = response.rating.toString();
-                getcomment = response.comment.toString();
-                //sendmail();
-                if (response.comment.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                    "Please Enter Comment",
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0),
-                  )));
-                } else {
-                  openDialog();
-                }
-                // print("OnSubmittedRating: ${response.rating}");
-                // print("comment: ${response.comment}");
-              });
-        });
-  }
-
-  sendmail() async {
-    final smtpServer = gmail(Email.text, Pass.text);
-    final message = Message()
-      ..from = Address(Email.text)
-      ..recipients.add(widget.showEmail)
-      ..subject = 'Feedback From NGO :: 😀 :: ${DateTime.now()}'
-      ..text = 'Rating ${getresponse} and Comment is ${getcomment}'
-      ..html =
-          "<h1>Feedback</h1>\n<p>Rating is: ${getresponse}</p>\n<p>Comment is: ${getcomment}</p>";
-
-    try {
-      final sendReport = await send(message, smtpServer);
-      print('Message sent: ' + sendReport.toString());
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-        "Email Sent Successfuly",
-        style: TextStyle(
-            color: Colors.green, fontWeight: FontWeight.bold, fontSize: 18.0),
-      )));
-    } on MailerException catch (e) {
-      print('Message not sent.');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-        "Email Not Sent",
-        style: TextStyle(
-            color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18.0),
-      )));
-      for (var p in e.problems) {
-        print('Problem: ${p.code}: ${p.msg}');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-          "Something Went Wrong..",
-          style: TextStyle(
-              color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18.0),
-        )));
-      }
-    }
-  }
-
-  Future openDialog() => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            'Enter Your Gmail Account Details',
-            style: TextStyle(color: Colors.teal),
-          ),
-          content: Container(
-            height: 100.0,
-            child: Column(
-              children: [
-                TextField(
-                  controller: Email,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'Enter Your Email',
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.teal,
-                        width: 2,
-                      ),
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-                TextField(
-                  controller: Pass,
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Enter Your Password',
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.teal,
-                        width: 2,
-                      ),
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                if (Email.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                    "Please Enter Email",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0),
-                  )));
-                  displayToastMessage("Please Enter Email", context);
-                } else if (!Email.text.contains('@')) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                    "Email is Invalid",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0),
-                  )));
-                } else if (Pass.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                    "Please Enter Password",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0),
-                  )));
-                  displayToastMessage("Please Enter Password", context);
-                } else {
-                  sendmail();
-                }
-              },
-              child: Text(
-                'Send Email',
-                style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.teal),
-              ),
-            ),
-          ],
-        ),
-      );
 }

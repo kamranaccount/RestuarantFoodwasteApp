@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restaurantfoodwaste/services/food_wastage_api.dart';
 
@@ -150,9 +152,12 @@ class _WastePredictionState extends State<WastePrediction> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Food Wastage Prediction'),
+        title: const Text(
+          'Food Wastage Prediction',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.teal,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -162,7 +167,11 @@ class _WastePredictionState extends State<WastePrediction> {
             children: <Widget>[
               Text(
                 'Select correct answers from below:',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                ),
               ),
               Padding(
                 padding: EdgeInsets.all(8.0),
@@ -176,39 +185,51 @@ class _WastePredictionState extends State<WastePrediction> {
               buildRadioButtons(2, _radioValue3, _handleRadioValueChange3),
               buildRadioButtons(3, _radioValue4, _handleRadioValueChange4),
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  RaisedButton(
-                    onPressed: validateAnswers,
-                    child: Text(
-                      'Submit Form',
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.white),
-                    ),
-                    color: Theme.of(context).accentColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
+                  InkWell(
+                    child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10.0, left: 15.0, right: 15.0, bottom: 10.0),
+                          child: Text(
+                            "SUBMIT",
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        )),
+                    onTap: validateAnswers,
                   ),
                   Padding(
-                    padding: EdgeInsets.all(4.0),
+                    padding: EdgeInsets.all(2.0),
                   ),
-                  RaisedButton(
-                    onPressed: resetSelection,
-                    child: Text(
-                      'Clear',
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16.0,
-                          color: Colors.white),
-                    ),
-                    color: Theme.of(context).accentColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
+                  InkWell(
+                    child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10.0, left: 15.0, right: 15.0, bottom: 10.0),
+                          child: Text(
+                            "CLEAR",
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        )),
+                    onTap: resetSelection,
                   ),
                 ],
               )
@@ -231,9 +252,12 @@ class _WastePredictionState extends State<WastePrediction> {
         _radioValue2 == -1 ||
         _radioValue3 == -1 ||
         _radioValue4 == -1) {
-      Fluttertoast.showToast(
-          msg: 'Please fill all options in form',
-          toastLength: Toast.LENGTH_SHORT);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+        "Please Fill All Options In Form",
+        style: TextStyle(
+            color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18.0),
+      )));
     } else {
       showDialog(
         barrierDismissible: false,
@@ -257,14 +281,20 @@ class _WastePredictionState extends State<WastePrediction> {
           barrierDismissible: false,
           context: context,
           builder: (_) => AlertDialog(
-            title: const Text('Prediction Result'),
+            title: const Text(
+              'Prediction Result',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
-                    const Text("Wastage Prediction : "),
+                    const Text(
+                      "Wastage Prediction : ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Text(result['percentage']),
                   ],
                 ),
@@ -272,7 +302,10 @@ class _WastePredictionState extends State<WastePrediction> {
                   runAlignment: WrapAlignment.start,
                   crossAxisAlignment: WrapCrossAlignment.start,
                   children: [
-                    const Text("Message : "),
+                    const Text(
+                      "Message : ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Text(result['message']),
                   ],
                 ),
@@ -284,7 +317,11 @@ class _WastePredictionState extends State<WastePrediction> {
                   resetSelection();
                   Navigator.pop(context);
                 },
-                child: Text('Ok'),
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.teal),
+                ),
               )
             ],
           ),

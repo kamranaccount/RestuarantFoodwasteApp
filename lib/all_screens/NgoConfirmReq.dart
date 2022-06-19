@@ -5,7 +5,8 @@ import 'package:restaurantfoodwaste/all_screens/mainpage.dart';
 import 'package:restaurantfoodwaste/main.dart';
 
 class ngoConfirmReq extends StatefulWidget {
-  final String showReqName, showReqEmail, showReqAddr, showReqPhn,restId;
+  final String showReqName, showReqEmail, showReqAddr, showReqPhn, restId;
+
   const ngoConfirmReq(
       {Key? key,
       required this.showReqName,
@@ -22,14 +23,17 @@ class ngoConfirmReq extends StatefulWidget {
 class _ngoConfirmReqState extends State<ngoConfirmReq> {
   late DatabaseReference request;
 
-
   @override
   void initState() {
-    request =
-        FirebaseDatabase.instance.reference().child("rest").child(widget.restId.toString()).child("request");
+    request = FirebaseDatabase.instance
+        .reference()
+        .child("rest")
+        .child(widget.restId.toString())
+        .child("request");
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

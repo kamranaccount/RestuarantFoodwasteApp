@@ -1,14 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurantfoodwaste/Home_screen.dart';
-import 'package:restaurantfoodwaste/Signup/signUpRest.dart';
 import 'package:restaurantfoodwaste/all_screens/adminDashboard.dart';
-import 'package:restaurantfoodwaste/all_screens/mainpagerest.dart';
-import 'package:restaurantfoodwaste/loginscren/forgotpassRest.dart';
-import 'package:restaurantfoodwaste/ourwidgets/progrsbar.dart';
-import '../main.dart';
 import 'package:lottie/lottie.dart';
 
 class adminlogin extends StatelessWidget {
